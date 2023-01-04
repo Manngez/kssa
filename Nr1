@@ -1,0 +1,179 @@
+
+
+
+<html>
+  <head>
+    <title>Kassaregister</title>
+    <style>
+      button {
+        font-size: 20px;
+        padding: 10px 20px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+  
+  
+   <!-- Create a form to add temporary items to the second grid -->
+    <h1>Tillfälliga varor</h1>
+    <form onsubmit="return addItem()">
+      <label for="name">Namn:</label><br>
+      <input type="text" id="name" name="name"><br>
+      <label for="price">Pris:</label><br>
+      <input type="text" id="price" name="price"><br><br>
+      <input type="submit" value="Lägg till">
+    </form>
+
+    <!-- Create a second grid for temporary items -->
+    <div id="tempGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 10px;"></div>
+
+    <!-- Create a grid of buttons for each item -->
+    <h1>Kassaregister</h1>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 10px;">
+      <button style="color: green;" onclick="addToCart('Kaffe', 20)">Kaffe</button>
+      <button style="color: green;" onclick="addToCart('Dryck', 20)">Dryck</button>
+      <button style="color: green;" onclick="addToCart('Festis', 15)">Festis</button>
+      <button style="color: green;" onclick="addToCart('Hamburgare', 40)"> Hamburgare</button>
+      <button style="color: green;" onclick="addToCart('Toast', 30)">Toast</button>
+      <button style="color: green;" onclick="addToCart('Varmkorv', 20)">Varmkorv</button>
+      <button style="color: green;" onclick="addToCart('Kaka', 15)">Kaka
+            <button style="color: green;" onclick="addToCart('Poweraid', 25)">Poweraid</button>
+      <button style="color: green;" onclick="addToCart('Kexchoklad', 15)">Kexchoklad</button>
+      <button style="color: green;" onclick="addToCart('Chips', 15)">Chips</button>
+    </div>
+
+    <!-- Display the current cart contents and total -->
+    <h1>Varukorg</h1>
+    <div id="cart"></div>
+    <p style="color: black;">Totalt: <span id="total"></span> kr</p>
+    <button style="color: green;" onclick="checkout()">Kassa</button>
+    <button style="color: blue;" onclick="clearCart()">Rensa</button>
+
+    <button style="color: red;" onclick="undo()">Ångra senaste inmatning</button>
+    
+    <!-- Display the current revenue and sales -->
+    <h1>Intäkter och försäljning</h1>
+    <p style="color: black;">Intäkter: <span id="revenue">0</span> kr</p>
+    <div id="sales"></div>
+
+    <!-- Add JavaScript to update the cart and revenue -->
+    <script>
+      // Initialize variables for cart, revenue, and sales
+      let cart = [];
+      let revenue = 0;
+      let sales = {};
+
+      // Function to add an item to the cart
+      function addToCart(name, price) {
+        // Check if the item already exists in the cart
+        let itemExists = false;
+        for (let i = 0; i < cart.length; i++) {
+                    if (cart[i].name === name) {
+            // Increase the quantity of the existing item
+            cart[i].quantity++;
+            itemExists = true;
+            break;
+          }
+        }
+        if (!itemExists) {
+          // Add a new item to the cart
+          cart.push({name: name, price: price, quantity: 1});
+        }
+        updateTotal();
+      }
+
+      // Function to update the total and the cart display
+function updateTotal() {
+  let total = 0;
+  let cartTable = '<table><tr><th>Artikel</th><th>Antal</th><th>Pris</th></tr>';
+  for (let i = 0; i < cart.length; i++) {
+    total += cart[i].price * cart[i].quantity;
+    cartTable += `<tr><td>${cart[i].name}</td><td>${cart[i].quantity}</td><td>${cart[i].price * cart[i].quantity} kr</td></tr>`;
+  }
+  cartTable += '</table>';
+  document.getElementById('total').innerHTML = total;
+  document.getElementById('cart').innerHTML = cartTable;
+}
+
+
+      // Function to checkout and clear the cart
+      function checkout() {
+        revenue += parseInt(document.getElementById('total').innerHTML);
+        document.getElementById('revenue').innerHTML = revenue;
+        for (let i = 0; i < cart.length; i++) {
+          let itemName = cart[i].name;
+          let itemQuantity = cart[i].quantity;
+          let itemRevenue = cart[i].price * itemQuantity;
+          if (itemName in sales) {
+            sales[itemName] += itemQuantity;
+            sales[itemName + '_revenue'] += itemRevenue;
+          } else {
+            sales[itemName] = itemQuantity;
+            sales[itemName + '_revenue'] = itemRevenue;
+          }
+        }
+        updateSales();
+        cart = [];
+        updateTotal();
+      }
+
+      // Function to clear the cart
+      function clearCart() {
+        cart = [];
+        updateTotal();
+      }
+
+      // Function to undo the last action
+      function undo() {
+        if (cart.length > 0) {
+          // Remove the last item from the cart
+          cart.pop();
+          updateTotal();
+        } else if (revenue > 0) {
+                    // Decrease the revenue by the last transaction amount
+          revenue -= parseInt(document.getElementById('total').innerHTML);
+          document.getElementById('revenue').innerHTML = revenue;
+          // Decrease the sales quantity and revenue for each item in the last transaction
+          for (let i = 0; i < cart.length; i++) {
+            let itemName = cart[i].name;
+            let itemQuantity = cart[i].quantity;
+            let itemRevenue = cart[i].price * itemQuantity;
+            sales[itemName] -= itemQuantity;
+            sales[itemName + '_revenue'] -= itemRevenue;
+          }
+          updateSales();
+        }
+      }
+
+      // Function to update the sales display
+function updateSales() {
+  let salesTable = '<table><tr><th>Artikel</th><th>Antal</th><th>Intäkt</th></tr>';
+  for (let key in sales) {
+    if (key.endsWith('_revenue')) {
+      continue;
+    }
+    salesTable += `<tr><td>${key}</td><td>${sales[key]} st</td><td>${sales[key + '_revenue']} kr</td></tr>`;
+  }
+  salesTable += '</table>';
+  document.getElementById('sales').innerHTML = salesTable;
+}
+// Function to add an item to the temporary grid
+      function addItem() {
+        let name = document.getElementById('name').value;
+        let price = parseInt(document.getElementById('price').value);
+        let button = document.createElement("button");
+        button.innerHTML = name;
+        button.setAttribute("onclick", `addToCart("${name}", ${price})`);
+        document.getElementById("tempGrid").appendChild(button);
+        return false;
+      }
+    </script>
+  </body>
+</html>
+
+
+
+     
+
+
