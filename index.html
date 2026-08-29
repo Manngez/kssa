@@ -45,5 +45,17 @@
       <section id="notesView" class="view"><div class="page-head"><div><p class="eyebrow">Gemensamt</p><h1>Anteckningar</h1><p>Skriv sådant ni vill komma ihåg till nästa pass.</p></div></div><label class="big-note">Träningsanteckningar<textarea id="globalNotes" placeholder="Exempel: Nästa tisdag testar Lucas ett steg högre på benpressen om tekniken känns bra."></textarea></label><p class="save-note" id="notesSaved">Sparas automatiskt på enheten.</p></section>
     </main>
   </div>
-  <div id="toast" class="toast" role="status" aria-live="polite"></div><script src="app.js"></script>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+  <script>
+    const passBGeneratedImages = {
+      axelpress: 'https://d8j0ntlcm91z4.cloudfront.net/user_3II48NDtze84XCjRtOzwouCssZN/hf_20260829_084911_d4fea22e-af73-4807-9481-3103b0ed4448.png',
+      kabelrodd: 'https://d8j0ntlcm91z4.cloudfront.net/user_3II48NDtze84XCjRtOzwouCssZN/hf_20260829_084911_a7e94149-48c9-4cf2-bd78-8bab9986e830.png'
+    };
+    const localExerciseAsset = exerciseAsset;
+    exerciseAsset = function(ex) {
+      return passBGeneratedImages[ex.id] || localExerciseAsset(ex);
+    };
+    renderToday();
+  </script>
 </body></html>
