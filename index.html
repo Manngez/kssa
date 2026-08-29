@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#071a2b" />
+  <meta name="description" content="8-veckors gymprogram för Magnus och Lucas med övningsinstruktioner, loggbok och progression." />
+  <title>Magnus & Lucas – Gymprogram</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Huvudmeny">
+      <a class="brand" href="#today" aria-label="Magnus och Lucas gymprogram">
+        <span class="brand-mark">M&amp;L</span>
+        <span><b>Magnus &amp; Lucas</b><small>Gymprogram</small></span>
+      </a>
+      <section class="program-card"><p class="eyebrow">8-veckors program</p><div class="program-row"><strong id="sidebarWeek">Vecka 1 av 8</strong><span id="sidebarPercent">0%</span></div><div class="progress-track"><div id="sidebarProgress" class="progress-fill"></div></div></section>
+      <nav class="side-nav">
+        <button class="nav-btn active" data-view="today"><span>▣</span>Dagens pass</button>
+        <button class="nav-btn" data-view="passA"><span>🏋</span>Pass A</button><button class="nav-btn" data-view="passB"><span>🏋</span>Pass B</button>
+        <button class="nav-btn" data-view="exercises"><span>⌁</span>Övningar</button><button class="nav-btn" data-view="log"><span>▤</span>Loggbok</button><button class="nav-btn" data-view="stats"><span>▥</span>Statistik</button><button class="nav-btn" data-view="notes"><span>✎</span>Anteckningar</button>
+      </nav>
+      <section class="lucas-rules"><h3>Regler för Lucas</h3><p>✓ Tekniken först</p><p>✓ Cirka 3 reps kvar i tanken</p><p>✓ Ingen maxning</p><p>✓ Skarp smärta = avbryt</p></section>
+      <section class="schedule-mini"><h3>Passupplägg</h3><p>Tisdag: <b>Pass A</b></p><p>Lördag: <b>Pass B</b></p><small>Byt mellan passen varje gång.</small></section>
+    </aside>
+    <main class="main">
+      <header class="mobile-header"><button id="menuToggle" class="icon-btn" aria-label="Öppna meny">☰</button><div><b>Magnus &amp; Lucas</b><small>Gymprogram</small></div><button id="quickLog" class="icon-btn" aria-label="Öppna loggboken">▤</button></header>
+      <section id="todayView" class="view active-view">
+        <div class="page-head"><div><p class="eyebrow">Dagens träning</p><h1 id="passHeading">🏋 Pass A</h1><p id="passSubtitle">Ben, bröst, rygg, armar och bål</p></div><div class="head-actions"><div class="segmented" aria-label="Välj pass"><button data-pass="A" class="active">Pass A</button><button data-pass="B">Pass B</button></div><select id="weekSelect" aria-label="Välj vecka"></select></div></div>
+        <div id="exerciseTabs" class="exercise-tabs" role="tablist" aria-label="Övningar i passet"></div>
+        <article class="exercise-detail" id="exerciseDetail">
+          <div class="exercise-title-row"><div><p class="eyebrow" id="exerciseNumber">Övning 1</p><h2 id="exerciseName">Benpress</h2></div><span class="muscle-pill" id="exerciseMuscle">Lår och rumpa</span></div>
+          <div class="visual-grid"><figure class="exercise-figure"><img id="exerciseImage" src="assets/exercises/benpress.svg" alt="Illustration av benpress" /><figcaption>Startposition → utförande</figcaption></figure><aside class="muscle-card"><div class="muscle-card-head"><span class="muscle-icon">◉</span><div><small>Tränade muskler</small><strong id="muscleName">Framsida lår, baksida lår och sätesmuskler</strong></div></div><div class="body-map" aria-hidden="true"><svg viewBox="0 0 180 250"><circle cx="90" cy="28" r="17" class="body-line"/><path d="M90 45 L90 128 M50 66 L130 66 M50 66 L28 124 M130 66 L152 124 M90 128 L60 195 M90 128 L120 195 M60 195 L55 238 M120 195 L125 238" class="body-line"/><path id="bodyHighlight" d="M65 130 Q90 118 115 130 L126 194 Q90 208 54 194 Z" class="muscle-highlight"/></svg></div><p id="muscleDescription">Huvudsakligen lår och säte. Bålen hjälper till att hålla kroppen stabil.</p></aside></div>
+          <div class="instruction-grid"><section class="instruction-card"><h3><span>⚙</span> Ställ in</h3><ul id="setupList"></ul></section><section class="instruction-card"><h3><span>▶</span> Utförande</h3><ul id="performList"></ul></section><section class="instruction-card"><h3><span>💡</span> Tänk på</h3><p id="cueText"></p><div class="warning-box"><strong>⚠ Vanliga fel</strong><ul id="mistakeList"></ul></div></section></div>
+          <section class="prescription-card"><div><small>Lucas</small><strong id="lucasPrescription">2 × 10–15</strong><span>Teknik före vikt</span></div><div><small>Magnus</small><strong id="magnusPrescription">3 × 8–12</strong><span>Ca 2 reps kvar i tanken</span></div></section>
+          <section class="log-panel" id="inlineLog"><div class="section-head"><div><p class="eyebrow">Dagens logg</p><h3>Logga era set</h3></div><button id="completeExercise" class="outline-btn">✓ Markera övning som klar</button></div><div class="table-scroller"><table class="set-table"><thead><tr><th rowspan="2">Set</th><th colspan="4" class="lucas-color">Lucas (13 år)</th><th colspan="4" class="magnus-color">Magnus</th></tr><tr><th>Vikt</th><th>Reps</th><th>RPE</th><th>Klar</th><th>Vikt</th><th>Reps</th><th>RPE</th><th>Klar</th></tr></thead><tbody id="setRows"></tbody></table></div><div class="log-footer"><p><b>RPE</b> = ansträngning. 1 = mycket lätt, 10 = max. Lucas bör normalt ligga ungefär 6–7.</p><label>Anteckning för övningen<textarea id="exerciseNotes" placeholder="Exempel: Kändes bra. Kan öka lite nästa gång."></textarea></label></div></section>
+          <div class="exercise-nav"><button id="prevExercise" class="secondary-btn">← Föregående övning</button><strong id="exerciseCounter">1 av 6</strong><button id="nextExercise" class="primary-btn">Nästa övning →</button></div>
+        </article>
+      </section>
+      <section id="exercisesView" class="view"><div class="page-head"><div><p class="eyebrow">Bibliotek</p><h1>Alla övningar</h1><p>Tryck på en övning för full instruktion och loggning.</p></div></div><div id="exerciseLibrary" class="library-grid"></div></section>
+      <section id="logView" class="view"><div class="page-head"><div><p class="eyebrow">Historik</p><h1>Loggbok</h1><p>Alla sparade träningspass på den här enheten.</p></div><button id="exportData" class="secondary-btn">Exportera data</button></div><div id="logSummary" class="summary-cards"></div><div id="historyList" class="history-list"></div></section>
+      <section id="statsView" class="view"><div class="page-head"><div><p class="eyebrow">Översikt</p><h1>Statistik</h1><p>Följ kontinuitet och progression genom programmet.</p></div></div><div class="stats-grid"><article class="stat-card"><small>Genomförda övningar</small><strong id="statExercises">0</strong><span>av totalt loggade</span></article><article class="stat-card"><small>Träningspass</small><strong id="statSessions">0</strong><span>med registrerad aktivitet</span></article><article class="stat-card"><small>Nuvarande vecka</small><strong id="statWeek">1 / 8</strong><span>i programmet</span></article></div><article class="chart-card"><h2>Veckoprogression</h2><div id="weekChart" class="week-chart"></div></article></section>
+      <section id="notesView" class="view"><div class="page-head"><div><p class="eyebrow">Gemensamt</p><h1>Anteckningar</h1><p>Skriv sådant ni vill komma ihåg till nästa pass.</p></div></div><label class="big-note">Träningsanteckningar<textarea id="globalNotes" placeholder="Exempel: Nästa tisdag testar Lucas ett steg högre på benpressen om tekniken känns bra."></textarea></label><p class="save-note" id="notesSaved">Sparas automatiskt på enheten.</p></section>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div><script src="app.js"></script>
+</body></html>
