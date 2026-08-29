@@ -1,4 +1,4 @@
-const CACHE='ml-gym-v2';
+const CACHE='ml-gym-v3';
 const ASSETS=['./','./index.html','./styles.css','./app.js','./manifest.webmanifest',
 './assets/exercises/benpress.webp','./assets/exercises/brostpress.webp','./assets/exercises/sittande-rodd.webp','./assets/exercises/goblet-squat.webp','./assets/exercises/latsdrag.webp','./assets/exercises/planka.webp','./assets/exercises/larcurl.svg','./assets/exercises/axelpress.svg','./assets/exercises/kabelrodd.svg','./assets/exercises/step-up.svg','./assets/exercises/hoftlyft.svg','./assets/exercises/sidoplanka.svg'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
