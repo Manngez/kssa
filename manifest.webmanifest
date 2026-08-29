@@ -1,0 +1,10 @@
+{
+  "name": "Magnus & Lucas Gymprogram",
+  "short_name": "Gymprogram",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#071a2b",
+  "description": "8-veckors gymprogram med övningsinstruktioner och loggbok.",
+  "icons": []
+}
